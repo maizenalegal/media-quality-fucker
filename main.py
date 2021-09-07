@@ -1,30 +1,35 @@
 import os
 
+filesToFuck = []
+
 for file in os.listdir('input'):
 
 	print('Fuck ' + file + '? [Y/n]: ')
 
-	yesorno = input().upper()
+	yesOrNo = input().upper()
 
-	while yesorno != 'Y' and 'N' and '':
+	while yesOrNo != 'Y' and 'N' and '':
 
 		print('[Y/n]: ')
 
-		yesorno = input().upper()
+		yesOrNo = input().upper()
 
-	if yesorno == 'Y' or yesorno == '':
+	if yesOrNo == 'Y' or yesOrNo == '':
 
-		print('Fucking ' + file)
+		filesToFuck.append(file)
 
-		split = os.path.splitext(file)
+for file in filesToFuck:
+	print('Fucking ' + file)
 
-		filename = split[0]
+	split = os.path.splitext(file)
 
-		extension = split[len(split)-1]
+	filename = split[0]
 
-		os.system('ffmpeg -y -i ' + '"input/' + file + '" -loglevel quiet -c:a ac3 -vf "scale=\'min(60,iw)\':\'min(60,ih)\'" -b:a 1k -b:v 30k ' + 'output/0' + extension)
-		os.system('ffmpeg -y -i ' + '"output/0' + extension + '" -loglevel quiet -vf "scale=\'max(720,iw)\':\'max(720,ih)\'" -b:a 1k -b:v 30k ' + '"output/' + filename + ' fucked' + extension + '"')
+	extension = split[len(split)-1]
 
-		os.remove('output/0' + extension)
+	os.system('ffmpeg -y -i ' + '"input/' + file + '" -loglevel quiet -c:a ac3 -vf "scale=\'min(60,iw)\':\'min(60,ih)\'" -b:a 1k -b:v 30k ' + 'output/0' + extension)
+	os.system('ffmpeg -y -i ' + '"output/0' + extension + '" -loglevel quiet -vf "scale=\'max(720,iw)\':\'max(720,ih)\'" -b:a 1k -b:v 30k ' + '"output/' + filename + ' fucked' + extension + '"')
 
-		print('Done fucking ' + file + '.\n')
+	os.remove('output/0' + extension)
+
+	print('Done fucking ' + file + '.\n')
