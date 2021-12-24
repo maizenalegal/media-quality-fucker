@@ -27,8 +27,8 @@ for file in filesToFuck:
 
 	extension = split[len(split)-1]
 
-	os.system('ffmpeg -y -i ' + '"input/' + file + '" -loglevel quiet -c:a ac3 -vf "scale=\'min(60,iw)\':\'min(60,ih)\'" -b:a 1k -b:v 30k ' + 'output/0' + extension)
-	os.system('ffmpeg -y -i ' + '"output/0' + extension + '" -loglevel quiet -vf "scale=\'max(720,iw)\':\'max(720,ih)\'" -b:a 1k -b:v 30k ' + '"output/' + filename + ' fucked' + extension + '"')
+	os.system('ffmpeg -y -i ' + '"input/' + file + '" -vf select=concatdec_select -af aselect=concatdec_select,aresample=async=1 -loglevel quiet -c:a ac3 -vf "scale=\'min(60,iw)\':\'min(60,ih)\'" -b:a 8k -b:v 30k ' + 'output/0' + extension)
+	os.system('ffmpeg -y -i ' + '"output/0' + extension + '" -vf select=concatdec_select -af aselect=concatdec_select,aresample=async=1 -loglevel quiet -vf "scale=\'max(720,iw)\':\'max(720,ih)\'" -b:a 8k -b:v 30k ' + '"output/' + filename + ' fucked' + extension + '"')
 
 	os.remove('output/0' + extension)
 
